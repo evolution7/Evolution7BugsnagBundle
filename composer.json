@@ -1,11 +1,13 @@
 {
     "name": "evolution7/bugsnag-bundle",
+    "type": "symfony-bundle",
+    "description": "Bugsnag error reporting integration",
     "require": {
         "bugsnag/bugsnag": "2.*"
     },
     "autoload": {
         "psr-0": { "Evolution7\\BugsnagBundle": "" }
     },
-    "target-dir": "Evolution7/BugsnagBundle",
+    "target-dir": "Evolution7/BugsnagBundle"
 
 }
