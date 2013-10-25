@@ -1,0 +1,6 @@
+{
+    "name": "evolution7/bugsnag-bundle",
+    "require": {
+        "bugsnag/bugsnag": "2.*"
+    }
+}
