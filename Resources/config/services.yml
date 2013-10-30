@@ -1,5 +1,5 @@
 parameters:
-    bugsnag.api_key: a2af267a638a50b274822826e4107be4
+    bugsnag.api_key:
     bugsnag.notify_stages: [development, staging, production]
     bugsnag.client.class: Evolution7\BugsnagBundle\Bugsnag\Client
     bugsnag.exception_listener.class: Evolution7\BugsnagBundle\EventListener\ExceptionListener
