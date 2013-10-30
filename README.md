@@ -1,7 +1,43 @@
-# Bugsnag Bundle #
+# Evolution7 Bugsnag Bundle #
 Enables Bugsnag integration into your Symfony2 application, using the [bugsnag-php](https://github.com/bugsnag/bugsnag-php) 2.x library from Bugsnag.
 
+# Installation #
+Composer (both this and bugsnag-php)
 
+Add the bundle to your AppKernel.php:
 
+```php
+    $bundles = array(
+        //Other Bundles
+        new Evolution7\BugsnagBundle\Evolution7BugsnagBundle(),
+```
+
+Define your Bugsnag API key in the config.yml
+
+```yml
+    parameters:
+        bugsnag.api_key: YOUR-API-KEY
+```
+
+# Usage #
+You can set for which environments you want Bugsnag to get error reports. This is done with the notify_stages setting:
+
+```yml
+    parameters:
+        bugsnag.notify_stages: [development, staging, production]
+```
+
+The default is to report bugs in staging and production environments.
+
+# Advanced Usage #
+
+## Release Stage Class ##
+Bugsnag allows you to determine which release stage you are currently in, the Evolution7BugsnagBundle uses a ReleaseStage class for this which determines this based on the path. Depending on your setup you might want to have a different way of determining this, in which case it is possible to override this by providing your own ReleaseStage class.
+You can implement a class that implements the `Evolution7\BugsnagBundle\ReleaseStage\ReleaseStageInterface` and provide its name as a parameter in your config.yml
+
+```yml
+    parameters:
+        bugsnag.release_stage.class: Your\Namespace\ReleaseStage
+```
 
 Parts of this code are based on the [bugsnag-php-symfony Bundle](https://github.com/wrep/bugsnag-php-symfony)
