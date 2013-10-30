@@ -33,7 +33,7 @@ class Client
         // Set up the Bugsnag client
         $this->bugsnagClient = new \Bugsnag_Client($apiKey);
         $this->bugsnagClient->setReleaseStage($releaseStageClass->get());
-        $this->bugsnagClient->setNotifyReleaseStages($container->getParameter('evolution7_bugsnag.notify_stages'));
+        $this->bugsnagClient->setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
         $this->bugsnagClient->setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
 
         // Set up result array

@@ -1,24 +1,24 @@
 parameters:
-    evolution7_bugsnag.api_key: a2af267a638a50b274822826e4107be4
-    evolution7_bugsnag.notify_stages: [development, staging, production]
-    evolution7_bugsnag.client.class: Evolution7\BugsnagBundle\Bugsnag\Client
-    evolution7_bugsnag.exception_listener.class: Evolution7\BugsnagBundle\EventListener\ExceptionListener
-    evolution7_bugsnag.shutdown_listener.class: Evolution7\BugsnagBundle\EventListener\ShutdownListener
-    evolution7_bugsnag.release_stage.class: Evolution7\CoreBundle\System\ReleaseStage
+    bugsnag.api_key: a2af267a638a50b274822826e4107be4
+    bugsnag.notify_stages: [development, staging, production]
+    bugsnag.client.class: Evolution7\BugsnagBundle\Bugsnag\Client
+    bugsnag.exception_listener.class: Evolution7\BugsnagBundle\EventListener\ExceptionListener
+    bugsnag.shutdown_listener.class: Evolution7\BugsnagBundle\EventListener\ShutdownListener
+    bugsnag.release_stage.class: Evolution7\CoreBundle\System\ReleaseStage
 
 services:
-    evolution7_bugsnag.client:
-        class: %evolution7_bugsnag.client.class%
-        arguments: [%evolution7_bugsnag.api_key%, @evolution7_core.release_stage, @service_container]
+    bugsnag.client:
+        class: %bugsnag.client.class%
+        arguments: [%bugsnag.api_key%, @evolution7_core.release_stage, @service_container]
 
-    evolution7_bugsnag.exception_listener:
-        class: %evolution7_bugsnag.exception_listener.class%
-        arguments: [@evolution7_bugsnag.client]
+    bugsnag.exception_listener:
+        class: %bugsnag.exception_listener.class%
+        arguments: [@bugsnag.client]
         tags:
                     - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
-    evolution7_bugsnag.shutdown_listener:
-        class: %evolution7_bugsnag.shutdown_listener.class%
-        arguments: [@evolution7_bugsnag.client]
+    bugsnag.shutdown_listener:
+        class: %bugsnag.shutdown_listener.class%
+        arguments: [@bugsnag.client]
         tags:
                     - { name: kernel.event_listener, event: kernel.controller, method: register }
