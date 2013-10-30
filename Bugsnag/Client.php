@@ -37,6 +37,10 @@ class Client
         $this->bugsnagClient->setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
         $this->bugsnagClient->setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
 
+        if ($container->hasParameter('bugsnag.proxy')) {
+            $this->bugsnagClient->setProxySettings($container->getParameter('bugsnag.proxy'));
+        }
+
         // Set up result array
         $metaData = array(
             'Symfony' => array()

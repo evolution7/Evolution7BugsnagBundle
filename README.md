@@ -32,6 +32,20 @@ parameters:
 
 The default is to report bugs in staging and production environments.
 
+## Proxy ##
+If your server requires you to access Bugsnag through a proxy, you can set this up easily as well. Just use the following example to configure the settings you need in your config.yml:
+
+```yml
+parameters:
+    bugsnag.proxy:
+        host: www.bugsnag.com
+        port: 42
+        user: username
+        password: password
+```
+
+The only of these settings that is mandatory is the host, all others can be left out if they aren't required.
+
 # Advanced Usage #
 
 ## Release Stage Class ##
@@ -45,7 +59,6 @@ parameters:
 
 # TODO #
 
-* Proxy config
 * Composer/Packagist
 * Unit tests
 * Jenkins integration (Maybe Travis for Github?)
