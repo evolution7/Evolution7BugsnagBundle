@@ -3,6 +3,7 @@ namespace Evolution7\BugsnagBundle\Bugsnag;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Evolution7\BugsnagBundle\ReleaseStage\ReleaseStageInterface;
 
 /**
  * The BugsnagBundle Client Loader.
@@ -18,10 +19,10 @@ class Client
 
     /**
      * @param string $apiKey
+     * @param ReleaseStageInterface $releaseStageClass
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param string|null $queue
      */
-    public function __construct($apiKey, $releaseStageClass, ContainerInterface $container)
+    public function __construct($apiKey, ReleaseStageInterface $releaseStageClass, ContainerInterface $container)
     {
         if (!$apiKey) {
             return;

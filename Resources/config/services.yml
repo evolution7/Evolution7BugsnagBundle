@@ -4,12 +4,15 @@ parameters:
     bugsnag.client.class: Evolution7\BugsnagBundle\Bugsnag\Client
     bugsnag.exception_listener.class: Evolution7\BugsnagBundle\EventListener\ExceptionListener
     bugsnag.shutdown_listener.class: Evolution7\BugsnagBundle\EventListener\ShutdownListener
-    bugsnag.release_stage.class: Evolution7\CoreBundle\System\ReleaseStage
+    bugsnag.release_stage.class: Evolution7\BugsnagBundle\ReleaseStage\ReleaseStage
 
 services:
+    bugsnag.release_stage:
+        class: %bugsnag.release_stage.class%
+
     bugsnag.client:
         class: %bugsnag.client.class%
-        arguments: [%bugsnag.api_key%, @evolution7_core.release_stage, @service_container]
+        arguments: [%bugsnag.api_key%, @bugsnag.release_stage, @service_container]
 
     bugsnag.exception_listener:
         class: %bugsnag.exception_listener.class%
