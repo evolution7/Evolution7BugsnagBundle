@@ -1,0 +1,3 @@
+evolution7_bugsnag_test_error:
+    pattern:  /error500
+    defaults: { _controller: Evolution7BugsnagBundle:Default:testError }
