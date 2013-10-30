@@ -46,6 +46,17 @@ parameters:
 
 The only of these settings that is mandatory is the host, all others can be left out if they aren't required.
 
+## Testing ##
+Included in the bundle is a controller that will allow you to test if your site is hooked up correctly. Just add the following to your routing.yml:
+
+```yml
+evolution7_bugsnag_bundle:
+    resource: "@Evolution7BugsnagBundle/Resources/config/routing.yml"
+    prefix:   /bugsnagtest
+```
+
+And then afterwards you can access `your.domain/bugsnagtest/exception` and `your.domain/bugsnagtest/error` which should then send errors to your configured Bugsnag project.
+
 # Advanced Usage #
 
 ## Release Stage Class ##
