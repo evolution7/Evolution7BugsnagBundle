@@ -1,7 +1,7 @@
 <?php
 namespace Evolution7\BugsnagBundle\EventListener;
 
-use Evolution7\BugsnagBundle\Bugsnag\Client,
+use Evolution7\BugsnagBundle\Bugsnag\ClientLoader,
     Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 /**
@@ -15,7 +15,7 @@ class ShutdownListener
 {
     protected $client;
 
-    public function __construct(Client $client)
+    public function __construct(ClientLoader $client)
     {
         $this->client = $client;
     }

@@ -13,6 +13,7 @@ class DefaultController extends Controller
 
     public function errorAction()
     {
-        trigger_error('Error for testing Bugsnag integration', E_USER_ERROR);
+        $testObject = new \stdClass();
+        $testObject->throwMeAnErrorForBugsnag();
     }
 }

@@ -32,6 +32,14 @@ parameters:
 
 The default is to report bugs in staging and production environments.
 
+### Development mode ###
+By default errors in development (app_dev.php) mode will not be reported to Bugsnag. You can override this behaviour with the below setting.
+
+```yml
+parameters:
+    bugsnag.report_in_dev: true
+```
+
 ## Proxy ##
 If your server requires you to access Bugsnag through a proxy, you can set this up easily as well. Just use the following example to configure the settings you need in your config.yml:
 
