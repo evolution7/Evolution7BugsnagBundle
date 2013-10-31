@@ -127,7 +127,7 @@
             <arg value="--title=Evolution7BugsnagBundle" />
             <arg value="--config=/var/lib/jenkins/ev7config/PHPDOC/phpdoc.dist.xml" />
             <arg value="--target=${basedir}/build/api" />
-            <arg value="--ignore=${basedir}/vendor" />
+            <arg value="--ignore=vendor/*" />
         </exec>
     </target>
 
