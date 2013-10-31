@@ -52,9 +52,9 @@
             <arg value="--log-csv" />
             <arg value="${basedir}/build/logs/phploc.csv" />
             <arg value="--exclude" />
-            <arg value="${basedir}/vendor" />
+            <arg value="vendor" />
             <arg value="--exclude" />
-            <arg value="${basedir}/Tests" />
+            <arg value="Tests" />
             <arg path="${basedir}" />
         </exec>
     </target>
@@ -144,8 +144,8 @@
             <arg path="${basedir}/app/build/logs" />
             <arg value="--source" />
             <arg path="${basedir}" />
-            <arg value="--output" />
             <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
+            <arg value="--output" />
             <arg path="${basedir}/build/code-browser" />
         </exec>
     </target>
