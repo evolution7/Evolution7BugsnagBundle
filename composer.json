@@ -1,9 +1,16 @@
 {
     "name": "evolution7/bugsnag-bundle",
     "type": "symfony-bundle",
-    "description": "Bugsnag error reporting integration",
+    "description": "Bugsnag error reporting integration for Symfony2",
+    "keywords": ["symfony2", "bugsnag", "exceptions", "errors", "logging", "tracking"],
+    "homepage": "https://github.com/evolution7/symfony2-bugsnag-bundle",
+    "license": "MIT",
     "require": {
+        "php": ">=5.3.3",
         "bugsnag/bugsnag": "2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0": { "Evolution7\\BugsnagBundle": "" }
