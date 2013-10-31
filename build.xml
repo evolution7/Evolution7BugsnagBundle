@@ -75,7 +75,7 @@
             <arg value="text" />
             <arg value="/var/lib/jenkins/ev7config/PHPMD/symfony2-pmd.xml" />
             <arg value="--exclude" />
-                        <arg value="${basedir}/vendor,${basedir}/Tests"/>
+            <arg value="${basedir}/vendor,${basedir}/Tests"/>
         </exec>
     </target>
 
@@ -141,7 +141,7 @@
     <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
         <exec executable="phpcb">
             <arg value="--log" />
-            <arg path="${basedir}/app/build/logs" />
+            <arg path="${basedir}/build/logs" />
             <arg value="--source" />
             <arg path="${basedir}" />
             <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
