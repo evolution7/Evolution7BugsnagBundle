@@ -24,12 +24,10 @@ class ClientLoader
      * @param ReleaseStageInterface $releaseStageClass
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      */
-    public function __construct($apiKey, ReleaseStageInterface $releaseStageClass, ContainerInterface $container)
+    public function __construct(\Bugsnag_Client $bugsnagClient, ReleaseStageInterface $releaseStageClass, ContainerInterface $container)
     {
-        // An API key is required
-        if (!$apiKey) {
-            throw new Exception('Please provide a Bugsnag API key');
-        }
+        $this->bugsnagClient = $bugsnagClient;
+
         // If we are in the production mode or dev_enabled is true we will sent messages
         if($container->getParameter('bugsnag.report_in_dev') || $container->getParameter('kernel.environment') == 'prod') {
             $this->enabled = true;
@@ -38,7 +36,6 @@ class ClientLoader
         $request = $container->get('request');
 
         // Set up the Bugsnag client
-        $this->bugsnagClient = new \Bugsnag_Client($apiKey);
         $this->bugsnagClient->setReleaseStage($releaseStageClass->get());
         $this->bugsnagClient->setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
         $this->bugsnagClient->setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
@@ -61,7 +58,6 @@ class ClientLoader
         }
         $metaData['Symfony']['Route'] = $request->get('_route');
         $this->bugsnagClient->setMetaData($metaData);
-
     }
 
     /**
