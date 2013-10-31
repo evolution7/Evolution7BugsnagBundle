@@ -29,7 +29,7 @@ class ClientLoader
         $this->bugsnagClient = $bugsnagClient;
 
         // If we are in the production mode or dev_enabled is true we will sent messages
-        if($container->getParameter('bugsnag.report_in_dev') || $container->getParameter('kernel.environment') == 'prod') {
+        if ($container->getParameter('bugsnag.report_in_dev') || $container->getParameter('kernel.environment') == 'prod') {
             $this->enabled = true;
         }
 
@@ -52,8 +52,7 @@ class ClientLoader
 
         // Get and add controller information, if available
         $controller = $request->attributes->get('_controller');
-        if ($controller !== null)
-        {
+        if ($controller !== null) {
             $metaData['Symfony'] = array('Controller' => $controller);
         }
         $metaData['Symfony']['Route'] = $request->get('_route');

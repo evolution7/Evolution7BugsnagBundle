@@ -49,7 +49,7 @@ class ReleaseStage implements ReleaseStageInterface
         if (strpos($paths, 'stage') !== false || strpos($paths, 'staging') !== false) {
           // Set release stage to staging
           $releaseStage = self::STAGING;
-        } elseif((strpos(__FILE__, '/home') !== false && strpos(__FILE__, 'vhosts') !== false) || file_exists('/home/vagrant')) {
+        } elseif ((strpos(__FILE__, '/home') !== false && strpos(__FILE__, 'vhosts') !== false) || file_exists('/home/vagrant')) {
           //Check for dev environment that works with cli scripts
           $releaseStage = self::DEVELOPMENT;
         }
