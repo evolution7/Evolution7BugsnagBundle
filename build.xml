@@ -104,7 +104,7 @@
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
             <arg value="--standard=Symfony2" />
-            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>()
+            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
             <arg path="${basedir}" />
         </exec>
     </target>
