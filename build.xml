@@ -114,9 +114,9 @@
             <arg value="--log-pmd" />
             <arg value="${basedir}/build/logs/pmd-cpd.xml" />
             <arg value="--exclude" />
-            <arg value="${basedir}/vendor" />
+            <arg value="vendor" />
             <arg value="--exclude" />
-            <arg value="${basedir}/Tests" />
+            <arg value="Tests" />
             <arg path="${basedir}" />
         </exec>
     </target>
@@ -145,7 +145,7 @@
             <arg value="--source" />
             <arg path="${basedir}" />
             <arg value="--output" />
-            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>(
+            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
             <arg path="${basedir}/build/code-browser" />
         </exec>
     </target>
