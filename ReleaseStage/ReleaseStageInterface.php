@@ -12,7 +12,9 @@ interface ReleaseStageInterface
     /**
      * Returns a textual description of the release stage
      *
+     * @param boolean $force Bypass caching and determine anew
+     *
      * @return string a textual description of the release stage
      */
-    public function get();
+    public function get($force = false);
 }
