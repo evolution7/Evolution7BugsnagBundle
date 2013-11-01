@@ -76,10 +76,17 @@ parameters:
     bugsnag.release_stage.class: Your\Namespace\ReleaseStage
 ```
 
+# Contributing #
+
+* Fork it on Github
+* Commit and push until you are happy
+* Run the tests to make sure they all pass: composer install && ./vendor/bin/phpunit
+* Make a pull request
+* Thanks!
+
 # TODO #
 
 * Composer/Packagist
-* Unit tests
-* Jenkins integration (Maybe Travis for Github?)
 
+# Acknowledgement #
 Parts of this code are based on the [bugsnag-php-symfony Bundle](https://github.com/wrep/bugsnag-php-symfony)
