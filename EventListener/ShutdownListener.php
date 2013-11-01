@@ -14,6 +14,11 @@ class ShutdownListener
 {
     protected $client;
 
+    /**
+     * Constructor
+     *
+     * @param Evolution7\BugsnagBundle\Bugsnag\ClientLoader $client
+     */
     public function __construct(ClientLoader $client)
     {
         $this->client = $client;
