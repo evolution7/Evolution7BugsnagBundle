@@ -9,7 +9,6 @@ use Evolution7\BugsnagBundle\Bugsnag\ClientLoader,
  *
  * Handles shutdown errors and make sure they get logged.
  *
- * @license     http://www.opensource.org/licenses/mit-license.php
  */
 class ShutdownListener
 {

@@ -10,7 +10,6 @@ use Evolution7\BugsnagBundle\Bugsnag\ClientLoader,
  *
  * Handles exceptions that occur in the code base.
  *
- * @license     http://www.opensource.org/licenses/mit-license.php
  */
 class ExceptionListener
 {

@@ -48,8 +48,8 @@ class ReleaseStage implements ReleaseStageInterface
 
             self::$current = $releaseStage;
         }
-        return self::$current;
 
+        return self::$current;
     }
 
     /**
@@ -130,6 +130,7 @@ class ReleaseStage implements ReleaseStageInterface
             //Check for dev environment that works with cli scripts
             $releaseStage = self::DEVELOPMENT;
         }
+
         return $releaseStage;
     }
 

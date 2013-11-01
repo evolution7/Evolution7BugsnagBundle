@@ -10,7 +10,6 @@ use Evolution7\BugsnagBundle\ReleaseStage\ReleaseStageInterface;
  *
  * This class assists in the loading of the bugsnag Client class.
  *
- * @license     http://www.opensource.org/licenses/mit-license.php
  */
 class ClientLoader
 {
@@ -20,8 +19,8 @@ class ClientLoader
     /**
      * Constructor to set up and configure the Bugsnag_Client
      *
-     * @param string                $apiKey
-     * @param ReleaseStageInterface $releaseStageClass
+     * @param \Bugsnag_Client                                          $bugsnagClient
+     * @param ReleaseStageInterface                                    $releaseStageClass
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(\Bugsnag_Client $bugsnagClient, ReleaseStageInterface $releaseStageClass, ContainerInterface $container)
@@ -62,7 +61,7 @@ class ClientLoader
     /**
      * Deal with Exceptions
      *
-     * @param  \Exception $exception [description]
+     * @param \Exception $exception
      */
     public function notifyOnException(\Exception $exception)
     {
@@ -74,8 +73,8 @@ class ClientLoader
     /**
      * Deal with errors
      *
-     * @param  string $message   Error message
-     * @param  array  $metadata  Metadata to be provided
+     * @param string $message  Error message
+     * @param array  $metadata Metadata to be provided
      */
     public function notifyOnError($message, Array $metadata = null)
     {
