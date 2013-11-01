@@ -48,6 +48,17 @@ class ReleaseStageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testvalue', $object->get(true));
     }
 
+    public function testGetNoReleaseStageEnvDefaultToProduction()
+    {
+        $object = $this->getMockBuilder('Evolution7\BugsnagBundle\ReleaseStage\ReleaseStage')
+                        ->setMethods(array('determineFromPath'))
+                        ->getMock();
+        $object->expects($this->once())
+                ->method('determineFromPath')
+                ->will($this->returnValue(''));
+        $this->assertEquals('production', $object->get(true));
+    }
+
     public function setup()
     {
         $this->object = new ReleaseStage();
