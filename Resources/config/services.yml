@@ -1,11 +1,8 @@
 parameters:
     bugsnag.api_key:
-    bugsnag.notify_stages: [staging, production]
-    bugsnag.report_in_dev: false
     bugsnag.client.class: Evolution7\BugsnagBundle\Bugsnag\ClientLoader
     bugsnag.exception_listener.class: Evolution7\BugsnagBundle\EventListener\ExceptionListener
     bugsnag.shutdown_listener.class: Evolution7\BugsnagBundle\EventListener\ShutdownListener
-    bugsnag.release_stage.class: Evolution7\BugsnagBundle\ReleaseStage\ReleaseStage
 
 services:
     bugsnag.release_stage:

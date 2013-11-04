@@ -25,7 +25,32 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('bugsnag');
+        $rootNode = $treeBuilder->root('bugsnag');
+
+        $rootNode
+            ->children()
+                ->scalarNode('api_key')->end()
+                ->arrayNode('notify_stages')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->booleanNode('report_in_dev')
+                    ->defaultValue(false)
+                ->end()
+                ->arrayNode('release_stage')
+                    ->children()
+                        ->scalarNode('class')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('proxy')
+                    ->children()
+                        ->scalarNode('host')->end()
+                        ->scalarNode('port')->end()
+                        ->scalarNode('user')->end()
+                        ->scalarNode('password')->end()
+                    ->end()
+                ->end()
+            ->end();
+
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

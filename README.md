@@ -9,14 +9,14 @@ Add the bundle to your AppKernel.php:
 ```php
 $bundles = array(
     //Other Bundles
-    new Evolution7\BugsnagBundle\Evolution7BugsnagBundle(),
+    new Evolution7\BugsnagBundle\BugsnagBundle(),
 ```
 
 Define your Bugsnag API key in the config.yml
 
 ```yml
-parameters:
-    bugsnag.api_key: YOUR-API-KEY
+bugsnag:
+    api_key: YOUR-API-KEY
 ```
 
 # Usage #
@@ -26,8 +26,8 @@ After the installation the bundle works without any additional settings required
 You can set for which environments you want Bugsnag to get error reports. This is done with the notify_stages setting:
 
 ```yml
-parameters:
-    bugsnag.notify_stages: [development, staging, production]
+bugsnag:
+    notify_stages: [development, staging, production]
 ```
 
 The default is to report bugs in staging and production environments.
@@ -36,16 +36,16 @@ The default is to report bugs in staging and production environments.
 By default errors in development (app_dev.php) mode will not be reported to Bugsnag. You can override this behaviour with the below setting.
 
 ```yml
-parameters:
-    bugsnag.report_in_dev: true
+bugsnag:
+    report_in_dev: true
 ```
 
 ## Proxy ##
 If your server requires you to access Bugsnag through a proxy, you can set this up easily as well. Just use the following example to configure the settings you need in your config.yml:
 
 ```yml
-parameters:
-    bugsnag.proxy:
+bugsnag:
+    proxy:
         host: www.bugsnag.com
         port: 42
         user: username
@@ -59,7 +59,7 @@ Included in the bundle is a controller that will allow you to test if your site 
 
 ```yml
 evolution7_bugsnag_bundle:
-    resource: "@Evolution7BugsnagBundle/Resources/config/routing.yml"
+    resource: "@BugsnagBundle/Resources/config/routing.yml"
     prefix:   /bugsnagtest
 ```
 
@@ -72,8 +72,9 @@ Bugsnag allows you to determine which release stage you are currently in, the Ev
 You can implement a class that implements the `Evolution7\BugsnagBundle\ReleaseStage\ReleaseStageInterface` and provide its name as a parameter in your config.yml
 
 ```yml
-parameters:
-    bugsnag.release_stage.class: Your\Namespace\ReleaseStage
+bugsnag:
+    release_stage:
+        class: Your\Name\Space\ClassName
 ```
 
 # Contributing #
