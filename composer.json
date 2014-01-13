@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Bugsnag error reporting integration for Symfony2",
     "keywords": ["symfony2", "bugsnag", "exceptions", "errors", "logging", "tracking"],
-    "homepage": "https://github.com/evolution7/symfony2-bugsnag-bundle",
+    "homepage": "https://github.com/evolution7/Evolution7BugsnagBundle",
     "license": "MIT",
     "require": {
         "php": ">=5.3.3",
