@@ -4,12 +4,10 @@ Enables Bugsnag integration into your Symfony2 application, using the [bugsnag-p
 # Installation #
 The recommended way of installing this bundle is using [Composer](http://getcomposer.org/). 
 
-Add this repository to your project's `composer.json` file
+Add this repository to your composer information using the following command
 
-```json
-"require": {
-    "evolution7/bugsnag-bundle": "1.*"
-}
+```bash
+composer require "evolution7/bugsnag-bundle:1.*"
 ```
 
 Add the bundle to your AppKernel.php:
