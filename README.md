@@ -1,8 +1,16 @@
-# Evolution7 Bugsnag Bundle #
+# Evolution7BugsnagBundle #
 Enables Bugsnag integration into your Symfony2 application, using the [bugsnag-php](https://github.com/bugsnag/bugsnag-php) 2.x library from Bugsnag.
 
 # Installation #
-Composer (both this and bugsnag-php)
+The recommended way of installing this bundle is using [Composer](http://getcomposer.org/). 
+
+Add this repository to your project's `composer.json` file
+
+```json
+"require": {
+    "evolution7/bugsnag-bundle": "1.*"
+}
+```
 
 Add the bundle to your AppKernel.php:
 
@@ -84,10 +92,6 @@ bugsnag:
 * Run the tests to make sure they all pass: composer install && ./vendor/bin/phpunit
 * Make a pull request
 * Thanks!
-
-# TODO #
-
-* Composer/Packagist
 
 # Acknowledgement #
 Parts of this code are based on the [bugsnag-php-symfony Bundle](https://github.com/wrep/bugsnag-php-symfony)
