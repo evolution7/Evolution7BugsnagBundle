@@ -50,6 +50,11 @@ class BugsnagExtension extends Extension
             $container->setParameter('bugsnag.report_in_dev', $config['report_in_dev']);
         }
 
+        // App Version
+        if (isset($config['app_version'])) {
+            $container->setParameter('bugsnag.app_version', $config['app_version']);
+        }
+
         //Release stage class
         if (isset($config['release_stage']) && is_array($config['release_stage']) && isset($config['release_stage']['class'])) {
             $container->setParameter('bugsnag.release_stage.class', $config['release_stage']['class']);

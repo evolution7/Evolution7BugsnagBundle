@@ -52,6 +52,11 @@ class ClientLoader
             $this->bugsnagClient->setProxySettings($container->getParameter('bugsnag.proxy'));
         }
 
+        // app version
+        if ($container->hasParameter('bugsnag.app_version')) {
+            $this->bugsnagClient->setAppVersion($container->getParameter('bugsnag.app_version'));
+        }
+
         // Set up result array
         $metaData = array(
             'Symfony' => array()

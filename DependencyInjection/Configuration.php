@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('api_key')->end()
+                ->scalarNode('app_version')->end()
                 ->arrayNode('notify_stages')
                     ->prototype('scalar')->end()
                 ->end()
