@@ -60,6 +60,14 @@ bugsnag:
 
 The only of these settings that is mandatory is the host, all others can be left out if they aren't required.
 
+## AppVersion ##
+If you tag your app releases with version numbers, Bugsnag can display these on your dashboard if you set this:
+
+```yml
+bugsnag:
+    app_version: v1.2.3
+```
+
 ## Testing ##
 Included in the bundle is a controller that will allow you to test if your site is hooked up correctly. Just add the following to your routing.yml:
 
