@@ -9,9 +9,9 @@
  */
 namespace Evolution7\BugsnagBundle\EventListener;
 
-use Evolution7\BugsnagBundle\Bugsnag\ClientLoader;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Evolution7\BugsnagBundle\Bugsnag\ClientLoader,
+    Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent,
+    Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * The BugsnagBundle ExceptionListener.
