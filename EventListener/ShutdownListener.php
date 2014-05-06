@@ -25,7 +25,7 @@ class ShutdownListener
     /**
      * Constructor
      *
-     * @param Evolution7\BugsnagBundle\Bugsnag\ClientLoader $client
+     * @param \Evolution7\BugsnagBundle\Bugsnag\ClientLoader $client
      */
     public function __construct(ClientLoader $client)
     {
@@ -35,7 +35,7 @@ class ShutdownListener
     /**
      * Register the handler on the request.
      *
-     * @param Symfony\Component\HttpKernel\Event\FilterControllerEvent $event
+     * @param \Symfony\Component\HttpKernel\Event\FilterControllerEvent $event
      */
     public function register(FilterControllerEvent $event)
     {
