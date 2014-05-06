@@ -9,9 +9,9 @@
  */
 namespace Evolution7\BugsnagBundle\EventListener;
 
-use Evolution7\BugsnagBundle\Bugsnag\ClientLoader,
-    Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent,
-    Symfony\Component\HttpKernel\Exception\HttpException;
+use Evolution7\BugsnagBundle\Bugsnag\ClientLoader;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * The BugsnagBundle ExceptionListener.
@@ -26,7 +26,7 @@ class ExceptionListener
     /**
      * Constructor
      *
-     * @param Evolution7\BugsnagBundle\Bugsnag\ClientLoader $client
+     * @param \Evolution7\BugsnagBundle\Bugsnag\ClientLoader $client
      */
     public function __construct(ClientLoader $client)
     {
@@ -36,7 +36,7 @@ class ExceptionListener
     /**
      * Method for handling the actual exceptions
      *
-     * @param  Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event [description]
+     * @param  \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event [description]
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
@@ -47,6 +47,6 @@ class ExceptionListener
         }
 
         $this->client->notifyOnException($exception);
-        error_log($exception->getMessage().' in: '.$exception->getFile().':'.$exception->getLine());
+        error_log($exception->getMessage() . ' in: ' . $exception->getFile() . ':' . $exception->getLine());
     }
 }
