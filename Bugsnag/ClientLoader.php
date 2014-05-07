@@ -29,7 +29,7 @@ class ClientLoader
      *
      * @param \Bugsnag_Client                                          $bugsnagClient
      * @param ReleaseStageInterface                                    $releaseStageClass
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(\Bugsnag_Client $bugsnagClient, ReleaseStageInterface $releaseStageClass, ContainerInterface $container)
     {

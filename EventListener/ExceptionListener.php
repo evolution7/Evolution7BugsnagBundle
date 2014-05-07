@@ -26,7 +26,7 @@ class ExceptionListener
     /**
      * Constructor
      *
-     * @param Evolution7\BugsnagBundle\Bugsnag\ClientLoader $client
+     * @param \Evolution7\BugsnagBundle\Bugsnag\ClientLoader $client
      */
     public function __construct(ClientLoader $client)
     {
@@ -36,7 +36,7 @@ class ExceptionListener
     /**
      * Method for handling the actual exceptions
      *
-     * @param  Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event [description]
+     * @param  \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event [description]
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {

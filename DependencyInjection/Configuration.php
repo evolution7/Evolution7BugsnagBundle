@@ -32,6 +32,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('api_key')->end()
                 ->scalarNode('app_version')->end()
                 ->arrayNode('notify_stages')
+                    ->defaultValue(array('staging', 'production'))
                     ->prototype('scalar')->end()
                 ->end()
                 ->booleanNode('report_in_dev')
