@@ -9,6 +9,9 @@
  */
 namespace Evolution7\BugsnagBundle\ReleaseStage;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * The evReleaseStage class is responsible for determining the environment/stage
  * of the current release.
@@ -19,7 +22,7 @@ namespace Evolution7\BugsnagBundle\ReleaseStage;
  * - staging
  * - production
  */
-class ReleaseStage implements ReleaseStageInterface
+class ReleaseStage implements ReleaseStageInterface, ContainerAwareInterface
 {
 
     const DEVELOPMENT = 'development';
@@ -28,6 +31,9 @@ class ReleaseStage implements ReleaseStageInterface
     const PRODUCTION  = 'production';
 
     protected static $current;
+
+    /** @var  ContainerInterface */
+    protected $container;
 
     /**
      * Get release stage
@@ -44,11 +50,14 @@ class ReleaseStage implements ReleaseStageInterface
             $releaseStage = trim(getenv('RELEASE_STAGE'));
             $releaseStage = in_array($releaseStage, $this->getAll()) ? $releaseStage : null;
 
+            // If environment variable is not set, try to detect from Symfony environment
+            $releaseStage = $releaseStage ? : $this->determineFromSymfony();
+
             // If environment variable not set/valid, try to detect environment by url or path
-            $releaseStage = $releaseStage ?: $this->determineFromPath();
+            $releaseStage = $releaseStage ? : $this->determineFromPath();
 
             // If environment variable still not set, assume we are in production!
-            $releaseStage = $releaseStage ?: self::PRODUCTION;
+            $releaseStage = $releaseStage ? : self::PRODUCTION;
 
             self::$current = $releaseStage;
         }
@@ -68,7 +77,7 @@ class ReleaseStage implements ReleaseStageInterface
             self::TESTING     => self::TESTING,
             self::STAGING     => self::STAGING,
             self::PRODUCTION  => self::PRODUCTION,
-            );
+        );
     }
 
     /**
@@ -130,12 +139,38 @@ class ReleaseStage implements ReleaseStageInterface
             $releaseStage = self::STAGING;
         } elseif ((strpos(__FILE__, '/home') !== false && strpos(__FILE__, 'vhosts') !== false)
             || strpos($paths, '.local') !== false
-            || file_exists('/home/vagrant')) {
+            || file_exists('/home/vagrant')
+        ) {
             //Check for dev environment that works with cli scripts
             $releaseStage = self::DEVELOPMENT;
         }
 
         return $releaseStage;
+    }
+
+    /**
+     * Determine the current environment based on Symfony2 container
+     */
+    public function determineFromSymfony()
+    {
+
+        if ($this->container->get('kernel')->getEnvironment() == 'dev') {
+            return self::DEVELOPMENT;
+        }
+
+        return null;
+    }
+
+    /**
+     * Sets the Container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     *
+     * @api
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
     }
 
 }

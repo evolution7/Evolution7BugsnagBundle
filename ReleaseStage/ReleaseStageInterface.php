@@ -9,13 +9,15 @@
  */
 namespace Evolution7\BugsnagBundle\ReleaseStage;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+
 /**
  * Interface for ReleaseStage classes
  *
  * These classes are used to determine which release stage the application
  * is deployed in
  */
-interface ReleaseStageInterface
+interface ReleaseStageInterface extends ContainerAwareInterface
 {
     /**
      * Returns a textual description of the release stage
