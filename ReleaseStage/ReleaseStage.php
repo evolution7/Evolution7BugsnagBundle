@@ -147,10 +147,8 @@ class ReleaseStage implements ReleaseStageInterface
      */
     public function detectAppServer()
     {
-        if (function_exists('php_sapi_name')){
-            if (php_sapi_name() == 'cli-server'){
-                return self::DEVELOPMENT;
-            }
+        if (php_sapi_name() == 'cli-server') {
+            return self::DEVELOPMENT;
         }
 
         return null;
