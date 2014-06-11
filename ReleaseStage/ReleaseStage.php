@@ -47,6 +47,8 @@ class ReleaseStage implements ReleaseStageInterface
             // If environment variable not set/valid, try to detect environment by url or path
             $releaseStage = $releaseStage ?: $this->determineFromPath();
 
+            $releaseStage = $releaseStage ?: $this->detectAppServer();
+
             // If environment variable still not set, assume we are in production!
             $releaseStage = $releaseStage ?: self::PRODUCTION;
 
@@ -136,6 +138,22 @@ class ReleaseStage implements ReleaseStageInterface
         }
 
         return $releaseStage;
+    }
+
+    /**
+     * Detect whether the app was launched from PHP's built-in server
+     *
+     * @return string
+     */
+    public function detectAppServer()
+    {
+        if (function_exists('php_sapi_name')){
+            if (php_sapi_name() == 'cli-server'){
+                return self::DEVELOPMENT;
+            }
+        }
+
+        return null;
     }
 
 }
