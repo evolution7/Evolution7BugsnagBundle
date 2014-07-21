@@ -48,7 +48,7 @@
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="phploc">
+        <exec executable="${basedir}/vendor/bin/phploc">
             <arg value="--log-csv" />
             <arg value="${basedir}/build/logs/phploc.csv" />
             <arg value="--exclude" />
@@ -60,7 +60,7 @@
     </target>
 
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-        <exec executable="pdepend">
+        <exec executable="${basedir}/vendor/bin/pdepend">
             <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
             <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
             <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
@@ -70,20 +70,20 @@
     </target>
 
     <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="phpmd">
+        <exec executable="${basedir}/vendor/bin/phpmd">
             <arg path="${basedir}" />
             <arg value="text" />
-            <arg value="/var/lib/jenkins/ev7config/PHPMD/symfony2-pmd.xml" />
+            <arg value="${basedir}/vendor/evolution7/qa-tools/rulesets/phpmd/symfony2.xml" />
             <arg value="--exclude" />
             <arg value="${basedir}/vendor,${basedir}/Tests"/>
         </exec>
     </target>
 
     <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
-        <exec executable="phpmd">
+        <exec executable="${basedir}/vendor/bin/phpmd">
             <arg path="${basedir}" />
             <arg value="xml" />
-            <arg value="/var/lib/jenkins/ev7config/PHPMD/symfony2-pmd.xml" />
+            <arg value="${basedir}/vendor/evolution7/qa-tools/rulesets/phpmd/symfony2.xml" />
             <arg value="--reportfile" />
             <arg value="${basedir}/build/logs/pmd.xml" />
             <arg value="--exclude" />
@@ -92,25 +92,27 @@
     </target>
 
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="phpcs">
-            <arg value="--standard=Symfony2" />
-            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
+        <exec executable="${basedir}/vendor/bin/phpcs">
+            <arg value="--standard=PSR2" />
+            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests" />
+            <arg value="--extensions=php" />
             <arg path="${basedir}" />
         </exec>
     </target>
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-        <exec executable="phpcs" output="/dev/null">
+        <exec executable="${basedir}/vendor/bin/phpcs" output="/dev/null">
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-            <arg value="--standard=Symfony2" />
+            <arg value="--standard=PSR2" />
             <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
+            <arg value="--extensions=php" />
             <arg path="${basedir}" />
         </exec>
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="phpcpd">
+        <exec executable="${basedir}/vendor/bin/phpcpd">
             <arg value="--log-pmd" />
             <arg value="${basedir}/build/logs/pmd-cpd.xml" />
             <arg value="--exclude" />
@@ -122,7 +124,7 @@
     </target>
 
     <target name="phpdoc" description="Generate API documentation using phpDocumentor">
-        <exec executable="phpdoc">
+        <exec executable="${basedir}/vendor/bin/phpdoc">
             <arg value="--directory=${basedir}" />
             <arg value="--title=Evolution7BugsnagBundle" />
             <arg value="--config=/var/lib/jenkins/ev7config/PHPDOC/phpdoc.dist.xml" />
@@ -132,19 +134,20 @@
     </target>
 
     <target name="phpunit" description="Run unit tests with PHPUnit">
-        <exec executable="phpunit" failonerror="true">
+        <exec executable="${basedir}/vendor/bin/phpunit" failonerror="true">
             <arg value="-c" />
             <arg path="${basedir}/phpunit.xml.dist" />
         </exec>
     </target>
 
     <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
-        <exec executable="phpcb">
+        <exec executable="${basedir}/vendor/bin/phpcb">
             <arg value="--log" />
             <arg path="${basedir}/build/logs" />
             <arg value="--source" />
             <arg path="${basedir}" />
-            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
+            <arg value="--ignore=${basedir}/vendor"/>
+            <arg value="--ignore=${basedir}/Tests"/>
             <arg value="--output" />
             <arg path="${basedir}/build/code-browser" />
         </exec>

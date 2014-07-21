@@ -122,21 +122,20 @@ class ReleaseStage implements ReleaseStageInterface
     {
         $releaseStage = null;
         // Create paths variable with host name, document root and file path
-        $paths = __DIR__
-            . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '')
-            . (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '');
+        $httpHost = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+        $documentRoot = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
+        $paths = __DIR__ . $httpHost . $documentRoot;
 
         // Now check if paths variable contains "stage" or "staging" keywords
         if (strpos($paths, 'stage') !== false || strpos($paths, 'staging') !== false) {
             // Set release stage to staging
             $releaseStage = self::STAGING;
-        } elseif ((strpos(__FILE__, '/home') !== false && strpos(__FILE__, 'vhosts') !== false)
-            || strpos($paths, '.local') !== false
-            || file_exists('/home/vagrant')) {
+        } elseif (strpos(__FILE__, '/home') !== false && strpos(__FILE__, 'vhosts') !== false) {
             //Check for dev environment that works with cli scripts
             $releaseStage = self::DEVELOPMENT;
+        } elseif (substr($httpHost, -6) == '.local' || substr($httpHost, -4) == '.dev') {
+            $releaseStage = self::DEVELOPMENT;
         }
-
         return $releaseStage;
     }
 
@@ -153,5 +152,4 @@ class ReleaseStage implements ReleaseStageInterface
 
         return null;
     }
-
 }
