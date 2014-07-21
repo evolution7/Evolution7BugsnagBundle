@@ -132,7 +132,7 @@ class ReleaseStage implements ReleaseStageInterface
             $releaseStage = self::STAGING;
         } elseif ((strpos(__FILE__, '/home') !== false && strpos(__FILE__, 'vhosts') !== false)
             || strpos($paths, '.local') !== false
-            || file_exists('/home/vagrant')) {
+            || strpos($paths, '.dev') !== false) {
             //Check for dev environment that works with cli scripts
             $releaseStage = self::DEVELOPMENT;
         }
