@@ -40,8 +40,6 @@ class ClientLoader
             $this->enabled = true;
         }
 
-        $request = $container->get('request');
-
         // Set up the Bugsnag client
         $this->bugsnagClient->setReleaseStage($releaseStageClass->get());
         $this->bugsnagClient->setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
@@ -63,12 +61,17 @@ class ClientLoader
         );
 
         // Get and add controller information, if available
-        $controller = $request->attributes->get('_controller');
-        if ($controller !== null) {
-            $metaData['Symfony'] = array('Controller' => $controller);
+        if ($container->isScopeActive('request')) {
+            $request = $container->get('request');
+            $controller = $request->attributes->get('_controller');
+
+            if ($controller !== null) {
+                $metaData['Symfony'] = array('Controller' => $controller);
+            }
+
+            $metaData['Symfony']['Route'] = $request->get('_route');
+            $this->bugsnagClient->setMetaData($metaData);
         }
-        $metaData['Symfony']['Route'] = $request->get('_route');
-        $this->bugsnagClient->setMetaData($metaData);
     }
 
     /**

@@ -1,7 +1,8 @@
 parameters:
     bugsnag.api_key:
     bugsnag.client.class: Evolution7\BugsnagBundle\Bugsnag\ClientLoader
-    bugsnag.exception_listener.class: Evolution7\BugsnagBundle\EventListener\ExceptionListener
+    bugsnag.exception_console_listener.class: Evolution7\BugsnagBundle\EventListener\Exception\ConsoleListener
+    bugsnag.exception_listener.class: Evolution7\BugsnagBundle\EventListener\Exception\HttpKernelListener
     bugsnag.shutdown_listener.class: Evolution7\BugsnagBundle\EventListener\ShutdownListener
 
 services:
@@ -15,6 +16,12 @@ services:
     bugsnag.clientloader:
         class: %bugsnag.client.class%
         arguments: [@bugsnag.client, @bugsnag.release_stage, @service_container]
+
+    bugsnag.exception_console_listener:
+        class: %bugsnag.exception_console_listener.class%
+        arguments: [@bugsnag.clientloader]
+        tags:
+            - { name: kernel.event_listener, event: console.exception }
 
     bugsnag.exception_listener:
         class: %bugsnag.exception_listener.class%
