@@ -235,6 +235,11 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
         $this->container->expects($this->once())
                     ->method('get')
                     ->will($this->returnValue($this->getMock('Symfony\Component\HttpFoundation\Request', null)));
+        $this->container
+            ->expects($this->once())
+            ->method('isScopeActive')
+            ->with('request')
+            ->willReturn(true);
         $this->releaseStage = $this->getMock('Evolution7\BugsnagBundle\ReleaseStage\ReleaseStageInterface');
         $this->releaseStage->expects($this->once())
                     ->method('get')
