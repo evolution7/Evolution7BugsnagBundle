@@ -7,19 +7,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Evolution7\BugsnagBundle\EventListener;
+namespace Evolution7\BugsnagBundle\EventListener\Exception;
 
-use Evolution7\BugsnagBundle\Bugsnag\ClientLoader,
-    Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent,
-    Symfony\Component\HttpKernel\Exception\HttpException;
+use Evolution7\BugsnagBundle\Bugsnag\ClientLoader;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * The BugsnagBundle ExceptionListener.
+ * The BugsnagBundle HttpKernelListener.
  *
  * Handles exceptions that occur in the code base.
  *
  */
-class ExceptionListener
+class HttpKernelListener
 {
     protected $client;
 
