@@ -1,3 +1,10 @@
+
+1.2.0 / 2015-04-28
+==================
+
+  * Make sure the shutdowns get an error severity. (Thanks to [dbltr](https://github.com/dbtl://github.com/dbtlr))
+  * Add in the ability to pass in metadata and set the default exception severity to error.
+
 # 1.1.3
 
 * Recognize `.dev` domains as development servers
