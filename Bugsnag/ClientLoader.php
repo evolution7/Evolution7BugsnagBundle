@@ -93,11 +93,12 @@ class ClientLoader
      *
      * @param string $message  Error message
      * @param array  $metadata Metadata to be provided
+     * @param string|null $severity
      */
-    public function notifyOnError($message, Array $metadata = null)
+    public function notifyOnError($message, Array $metadata = null, $severity = null)
     {
         if ($this->enabled) {
-            $this->bugsnagClient->notifyError('Error', $message, $metadata);
+            $this->bugsnagClient->notifyError('Error', $message, $metadata, $severity);
         }
     }
 }
