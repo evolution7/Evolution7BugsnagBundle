@@ -78,11 +78,13 @@ class ClientLoader
      * Deal with Exceptions
      *
      * @param \Exception $exception
+     * @param array|null $metadata
+     * @param string $severity
      */
-    public function notifyOnException(\Exception $exception)
+    public function notifyOnException(\Exception $exception, $metadata = null, $severity = 'error')
     {
         if ($this->enabled) {
-            $this->bugsnagClient->notifyException($exception);
+            $this->bugsnagClient->notifyException($exception, $metadata, $severity);
         }
     }
 
