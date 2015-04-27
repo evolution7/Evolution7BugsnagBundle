@@ -64,7 +64,7 @@ class ShutdownListener
         $message   = sprintf($message, $error['message']);
         $backtrace = array(array('file' => $error['file'], 'line' => $error['line']));
 
-        $this->client->notifyOnError($message, $backtrace);
+        $this->client->notifyOnError($message, $backtrace, 'error');
         error_log($message.' in: '.$error['file'].':'.$error['line']);
     }
 }
