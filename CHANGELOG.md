@@ -1,4 +1,10 @@
 
+1.2.1 / 2015-07-22
+==================
+
+  * Change CI build to use Docker containers
+  * Make sure that json content types bass over their parameters properly. (Thanks to [dbltr](https://github.com/dbtlr))
+
 1.2.0 / 2015-04-28
 ==================
 
