@@ -70,6 +70,12 @@ class ClientLoader
             }
 
             $metaData['Symfony']['Route'] = $request->get('_route');
+
+            // Json types transmit params differently.
+            if ($request->getContentType() == 'json') {
+                $metaData['request']['params'] = $request->request->all();
+            }
+
             $this->bugsnagClient->setMetaData($metaData);
         }
     }
