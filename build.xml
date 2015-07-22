@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Evolution7BugsnagBundle" default="build">
-    <target name="build" depends="prepare,composer,vendors,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdoc,phpunit,phpcb"/>
+    <property name="bin-dir" location="/app/vendor/bin"/>
+    <target name="build" depends="lint,phpmd,phpcs,phpcpd,phpunit"/>
 
-    <target name="build-parallel" depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
-
-    <target name="tools-parallel" description="Run tools in parallel">
-        <parallel threadCount="2">
-            <sequential>
-                <antcall target="pdepend"/>
-                <antcall target="phpmd-ci"/>
-            </sequential>
-            <antcall target="phpcpd"/>
-            <antcall target="phpcs-ci"/>
-            <antcall target="phploc"/>
-            <antcall target="phpdoc"/>
-        </parallel>
-    </target>
+    <target name="jenkins" depends="prepare,vendors,lint,phploc,pdepend,phpmd-ci,phpmd-ci,phpcs-ci,phpcpd,phpcb,phpunit-ci,phpdoc,fix_jenkins_perms"/>
 
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${basedir}/build/api"/>
@@ -23,146 +11,253 @@
         <delete dir="${basedir}/build/coverage"/>
         <delete dir="${basedir}/build/logs"/>
         <delete dir="${basedir}/build/pdepend"/>
+        <delete dir="${basedir}/cache"/>
+        <delete dir="${basedir}/logs"/>
+        <delete file="${basedir}/composer.phar"/>
+        <delete dir="${basedir}/web/dist"/>
     </target>
 
-    <target name="prepare" depends="clean" description="Prepare for build">
+    <target name="prepare" depends="fix_jenkins_perms,clean,composer" description="Prepare for build">
         <mkdir dir="${basedir}/build/api"/>
         <mkdir dir="${basedir}/build/code-browser"/>
         <mkdir dir="${basedir}/build/coverage"/>
         <mkdir dir="${basedir}/build/logs"/>
         <mkdir dir="${basedir}/build/pdepend"/>
-        <mkdir dir="${basedir}/build/phpdoc"/>
+        <mkdir dir="${basedir}/cache"/>
+        <mkdir dir="${basedir}/logs"/>
     </target>
 
     <target name="lint" description="Perform syntax check of sourcecode files">
-        <apply executable="php" failonerror="true">
-            <arg value="-l" />
-
-            <fileset dir="${basedir}">
-                <include name="**/*.php" />
-                <exclude name="**/vendor/**" />
-                <modified />
-            </fileset>
-
-        </apply>
+        <exec executable="docker" failonerror="true">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="-w"/>
+            <arg value="/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="/bin/bash"/>
+            <arg value="-c"/>
+            <arg value="find -L /app -path /app/data -prune -o -path /app/lib/vendor -prune -o -path /app/vendor -prune -o -path /app/lib/symfony -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l"/>
+        </exec>
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="${basedir}/vendor/bin/phploc">
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phploc"/>
             <arg value="--log-csv" />
-            <arg value="${basedir}/build/logs/phploc.csv" />
-            <arg value="--exclude" />
-            <arg value="vendor" />
-            <arg value="--exclude" />
-            <arg value="Tests" />
-            <arg path="${basedir}" />
+            <arg value="build/logs/phploc.csv" />
+            <arg path="/app" />
         </exec>
     </target>
 
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-        <exec executable="${basedir}/vendor/bin/pdepend">
-            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
-            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
-            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests" />
-            <arg path="${basedir}" />
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/pdepend"/>
+            <arg value="--jdepend-xml=/app/build/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=/app/build/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=/app/build/pdepend/overview-pyramid.svg" />
+            <arg value="--ignore=vendor,Tests"/>
+            <arg path="/app" />
         </exec>
     </target>
 
     <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="${basedir}/vendor/bin/phpmd">
-            <arg path="${basedir}" />
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpmd"/>
+            <arg path="/app" />
             <arg value="text" />
-            <arg value="${basedir}/vendor/evolution7/qa-tools/rulesets/phpmd/symfony2.xml" />
+            <arg value="/app/vendor/evolution7/qa-tools/rulesets/phpmd/symfony2.xml" />
             <arg value="--exclude" />
-            <arg value="${basedir}/vendor,${basedir}/Tests"/>
+            <arg value="vendor,Tests" />
         </exec>
     </target>
 
     <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
-        <exec executable="${basedir}/vendor/bin/phpmd">
-            <arg path="${basedir}" />
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpmd"/>
+            <arg path="/app" />
             <arg value="xml" />
-            <arg value="${basedir}/vendor/evolution7/qa-tools/rulesets/phpmd/symfony2.xml" />
+            <arg value="/app/vendor/evolution7/qa-tools/rulesets/phpmd/symfony2.xml" />
             <arg value="--reportfile" />
-            <arg value="${basedir}/build/logs/pmd.xml" />
+            <arg value="/app/build/logs/pmd.xml" />
             <arg value="--exclude" />
-            <arg value="${basedir}/vendor,${basedir}/Tests"/>
+            <arg value="vendor,Tests" />
         </exec>
     </target>
 
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="${basedir}/vendor/bin/phpcs">
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpcs"/>
             <arg value="--standard=PSR2" />
-            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests" />
-            <arg value="--extensions=php" />
-            <arg path="${basedir}" />
+            <arg value="--ignore=/vendor/*,/Resources/*,/Tests/*" />
+            <arg path="/app" />
         </exec>
     </target>
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-        <exec executable="${basedir}/vendor/bin/phpcs" output="/dev/null">
+        <exec executable="docker" output="/dev/null">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpcs"/>
             <arg value="--report=checkstyle" />
-            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+            <arg value="--report-file=/app/build/logs/checkstyle.xml" />
             <arg value="--standard=PSR2" />
-            <arg value="--ignore=${basedir}/vendor,${basedir}/Tests"/>
-            <arg value="--extensions=php" />
-            <arg path="${basedir}" />
+            <arg value="--ignore=/vendor/*,/Resources/*,Tests/*" />
+            <arg path="/app" />
         </exec>
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="${basedir}/vendor/bin/phpcpd">
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpcpd"/>
             <arg value="--log-pmd" />
-            <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+            <arg value="/app/build/logs/pmd-cpd.xml" />
             <arg value="--exclude" />
-            <arg value="vendor" />
+            <arg value="vendor"/>
             <arg value="--exclude" />
-            <arg value="Tests" />
-            <arg path="${basedir}" />
+            <arg value="Tests"/>
+            <arg value="--exclude" />
+            <arg value="Resources"/>
+            <arg path="/app" />
+        </exec>
+        <exec executable="sed">
+            <arg value="-i"/>
+            <arg value="-e"/>
+            <arg value="s*/app*${basedir}*"/>
+            <arg value="${basedir}/build/logs/pmd-cpd.xml"/>
         </exec>
     </target>
 
     <target name="phpdoc" description="Generate API documentation using phpDocumentor">
-        <exec executable="${basedir}/vendor/bin/phpdoc">
-            <arg value="--directory=${basedir}" />
-            <arg value="--title=Evolution7BugsnagBundle" />
-            <arg value="--config=/var/lib/jenkins/ev7config/PHPDOC/phpdoc.dist.xml" />
-            <arg value="--target=${basedir}/build/api" />
-            <arg value="--ignore=vendor/*" />
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpdoc"/>
+            <arg value="--directory=/app" />
+            <arg value="--title='${ant.project.name}'" />
+            <arg value="--target=/app/build/api" />
+            <arg value="--ignore=vendor/*,Tests/*,Resources/*" />
+            <arg value="--quiet"/>
         </exec>
     </target>
 
     <target name="phpunit" description="Run unit tests with PHPUnit">
-        <exec executable="${basedir}/vendor/bin/phpunit" failonerror="true">
+        <exec executable="vendor/bin/phpunit" failonerror="true">
+            <arg value="-d"/>
+            <arg value="zend.enable_gc=0" />
+        </exec>
+    </target>
+
+    <target name="phpunit-ci" description="Run unit tests with PHPUnit">
+        <exec executable="docker" failonerror="true">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpunit"/>
             <arg value="-c" />
-            <arg path="${basedir}/phpunit.xml.dist" />
+            <arg path="/app/phpunit.xml.dist" />
         </exec>
     </target>
 
     <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
-        <exec executable="${basedir}/vendor/bin/phpcb">
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="${bin-dir}/phpcb"/>
             <arg value="--log" />
-            <arg path="${basedir}/build/logs" />
+            <arg path="/app/build/logs" />
             <arg value="--source" />
-            <arg path="${basedir}" />
-            <arg value="--ignore=${basedir}/vendor"/>
-            <arg value="--ignore=${basedir}/Tests"/>
+            <arg path="/app" />
             <arg value="--output" />
-            <arg path="${basedir}/build/code-browser" />
+            <arg path="/app/build/code-browser" />
         </exec>
     </target>
 
     <target name="composer" description="Install composer.phar">
-        <exec executable="bash">
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="-w"/>
+            <arg value="/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="/bin/bash"/>
             <arg value="-c"/>
-            <arg value="curl -s http://getcomposer.org/installer | php"/>
+            <arg value="curl -Ls http://getcomposer.org/installer | php"/>
         </exec>
     </target>
 
-    <target name="vendors" description="Install vendors">
-        <exec executable="${basedir}/composer.phar" failonerror="true">
+    <target name="vendors" description="">
+        <exec executable="docker">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="-w"/>
+            <arg value="/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="php"/>
+            <arg value="composer.phar"/>
             <arg value="install" />
         </exec>
     </target>
+
+    <target name="fix_jenkins_perms" description="Fix all docker generated file permissions">
+        <exec executable="docker" failonerror="true">
+            <arg value="run"/>
+            <arg value="--rm"/>
+            <arg value="-v"/>
+            <arg value="${basedir}:/app"/>
+            <arg value="-w"/>
+            <arg value="/app"/>
+            <arg value="evolution7/php5.5-cli"/>
+            <arg value="/bin/bash"/>
+            <arg value="-c"/>
+            <arg value="find . -user root -exec chown 107:113 {} \;"/>
+        </exec>
+    </target>
+
 </project>
