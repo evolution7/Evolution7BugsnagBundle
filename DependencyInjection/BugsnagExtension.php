@@ -38,8 +38,8 @@ class BugsnagExtension extends Extension
         }
         $container->setParameter('bugsnag.api_key', $config['api_key']);
 
-		// Enabled stages, default is prod
-		$container->setParameter('bugsnag.enabled_stages', $config['enabled_stages']);
+        // Enabled stages, default is prod
+        $container->setParameter('bugsnag.enabled_stages', $config['enabled_stages']);
 
         // Notify stages, default is staging and production
         $container->setParameter('bugsnag.notify_stages', $config['notify_stages']);
