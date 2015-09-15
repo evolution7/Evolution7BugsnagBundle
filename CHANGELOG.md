@@ -1,7 +1,7 @@
 1.3.0 / 2015-09-15
 ==================
 
-  * Introduce bugsnag.enabled_stages setting
+  * Introduce bugsnag.enabled_stages setting. (Thanks to [vicdelfant](https://github.com/vicdelfant))
 
 1.2.1 / 2015-07-22
 ==================
