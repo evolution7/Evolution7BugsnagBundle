@@ -29,14 +29,14 @@ bugsnag:
 After the installation the bundle works without any additional settings required, but you can tweak some settings.
 
 ## Enabled Stages ##
-You can set for which environments you want Bugsnag to be enabled. This is done through the enabled_stages setting:
+You can set for which Symfony environments (`kernel.environment`) you want Bugsnag to be enabled. This is done through the enabled_stages setting:
 
 ```yml
 bugsnag:
     enabled_stages: [dev, prod, staging]
 ```
 
-The default is to report bugs for the `prod` environment only.
+These environments should match the environment as set in your application's `web/app.php`, `web/app_dev.php` and/or `app/console`. The default is to report bugs for the `prod` environment only.
 
 
 ## Notify Stages ##
