@@ -28,6 +28,17 @@ bugsnag:
 # Usage #
 After the installation the bundle works without any additional settings required, but you can tweak some settings.
 
+## Enabled Stages ##
+You can set for which Symfony environments (`kernel.environment`) you want Bugsnag to be enabled. This is done through the enabled_stages setting:
+
+```yml
+bugsnag:
+    enabled_stages: [dev, prod, staging]
+```
+
+These environments should match the environment as set in your application's `web/app.php`, `web/app_dev.php` and/or `app/console`. The default is to report bugs for the `prod` environment only.
+
+
 ## Notify Stages ##
 You can set for which environments you want Bugsnag to get error reports. This is done with the notify_stages setting:
 
@@ -38,13 +49,6 @@ bugsnag:
 
 The default is to report bugs in staging and production environments.
 
-### Development mode ###
-By default errors in development (app_dev.php) mode will not be reported to Bugsnag. You can override this behaviour with the below setting.
-
-```yml
-bugsnag:
-    report_in_dev: true
-```
 
 ## Proxy ##
 If your server requires you to access Bugsnag through a proxy, you can set this up easily as well. Just use the following example to configure the settings you need in your config.yml:

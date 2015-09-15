@@ -40,43 +40,43 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array(
-                    array('bugsnag.report_in_dev', false),
                     array('kernel.environment', 'dev'),
+                    array('bugsnag.enabled_stages', array('prod')),
                     array('bugsnag.notify_stages', array('staging', 'production')),
                     array('kernel.root_dir', __DIR__)
                 ),
                 false,
-                'In dev mode and report_in_dev false means disabled'
+                'In dev mode and enabled_stages = [prod] means disabled'
             ),
             array(
                 array(
-                    array('bugsnag.report_in_dev', true),
                     array('kernel.environment', 'dev'),
+                    array('bugsnag.enabled_stages', array('prod', 'dev')),
                     array('bugsnag.notify_stages', array('staging', 'production')),
                     array('kernel.root_dir', __DIR__)
                 ),
                 true,
-                'In dev mode and report_in_dev true means enabled'
+                'In dev mode and enabled_stages = [prod, dev] means enabled'
             ),
             array(
                 array(
-                    array('bugsnag.report_in_dev', false),
                     array('kernel.environment', 'prod'),
+                    array('bugsnag.enabled_stages', array('prod')),
                     array('bugsnag.notify_stages', array('staging', 'production')),
                     array('kernel.root_dir', __DIR__)
                 ),
                 true,
-                'In prod mode and report_in_dev false means enabled'
+                'In prod mode and enabled_stages = [prod] means enabled'
             ),
             array(
                 array(
-                    array('bugsnag.report_in_dev', true),
                     array('kernel.environment', 'prod'),
+                    array('bugsnag.enabled_stages', array('prod', 'dev')),
                     array('bugsnag.notify_stages', array('staging', 'production')),
                     array('kernel.root_dir', __DIR__)
                 ),
                 true,
-                'In prod mode and report_in_dev true means enabled'
+                'In prod mode and enabled_stages = [prod, dev] means enabled'
             )
         );
     }
@@ -84,8 +84,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
     public function testProxySettingsNotPresent()
     {
         $settings = array(
-                        array('bugsnag.report_in_dev', false),
                         array('kernel.environment', 'dev'),
+                        array('bugsnag.enabled_stages', array('prod')),
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );
@@ -102,8 +102,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $proxySettings = array('host' => 'testhost', 'port' => 42);
         $settings = array(
-                        array('bugsnag.report_in_dev', false),
                         array('kernel.environment', 'dev'),
+                        array('bugsnag.enabled_stages', array('prod')),
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__),
                         array('bugsnag.proxy', $proxySettings)
@@ -130,8 +130,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
     public function testBugsnagClientMethodsCalled($methodName)
     {
         $settings = array(
-                        array('bugsnag.report_in_dev', false),
                         array('kernel.environment', 'dev'),
+                        array('bugsnag.enabled_stages', array('prod')),
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );
@@ -157,8 +157,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
     public function testNotifyOnExceptionNotEnabled()
     {
         $settings = array(
-                        array('bugsnag.report_in_dev', false),
                         array('kernel.environment', 'dev'),
+                        array('bugsnag.enabled_stages', array('prod')),
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );
@@ -175,8 +175,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
     public function testNotifyOnExceptionEnabled()
     {
         $settings = array(
-                        array('bugsnag.report_in_dev', false),
                         array('kernel.environment', 'prod'),
+                        array('bugsnag.enabled_stages', array('prod')),
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );
@@ -193,8 +193,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
     public function testNotifyOnErrorNotEnabled()
     {
         $settings = array(
-                        array('bugsnag.report_in_dev', false),
                         array('kernel.environment', 'dev'),
+                        array('bugsnag.enabled_stages', array('prod')),
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );
@@ -211,8 +211,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
     public function testNotifyOnErrorEnabled()
     {
         $settings = array(
-                        array('bugsnag.report_in_dev', false),
                         array('kernel.environment', 'prod'),
+                        array('bugsnag.enabled_stages', array('prod')),
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );

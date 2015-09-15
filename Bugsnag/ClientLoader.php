@@ -35,8 +35,8 @@ class ClientLoader
     {
         $this->bugsnagClient = $bugsnagClient;
 
-        // If we are in the production mode or dev_enabled is true we will sent messages
-        if ($container->getParameter('bugsnag.report_in_dev') || $container->getParameter('kernel.environment') == 'prod') {
+        // Report only if the kernel environment matches one of the enabled_stages
+        if (in_array($container->getParameter('kernel.environment'), $container->getParameter('bugsnag.enabled_stages'))) {
             $this->enabled = true;
         }
 
