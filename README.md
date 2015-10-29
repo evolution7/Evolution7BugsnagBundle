@@ -131,7 +131,11 @@ class BugsnagUser implements BugsnagUserInterface
      */
     public function get()
     {
-        if (!$this->token->isAuthenticated() || !$this->token->getUser() instanceof SymfonyUserInterface) {
+        if (
+            is_null($this->token)
+            || !$this->token->isAuthenticated()
+            || !$this->token->getUser() instanceof SymfonyUserInterface
+        ) {
             return [];
         }
 
