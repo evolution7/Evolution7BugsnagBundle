@@ -97,6 +97,69 @@ bugsnag:
         class: Your\Name\Space\ClassName
 ```
 
+## User Information ##
+Bugsnag gives the possibility to give userdata as additional information to a request. If you give an id, name or email these fields will be searchable. Other fields are allowed
+but not searchable - they will only be displayed. The bundle allows to set a user to array converter as a service which will be used to send user data.
+The given service must be an instance of \Evolution7\BugsnagBundle\UserInterface
+
+```php
+<?php
+# src/AppBundle/BugsnagUser.php
+namespace AppBundle;
+
+use Evolution7\BugsnagBundle\UserInterface as BugsnagUserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
+
+class BugsnagUser implements BugsnagUserInterface
+{
+    /**
+     * @var TokenStorageInterface
+     */
+    private $token;
+
+    /**
+     * @param TokenStorageInterface $token
+     */
+    public function __construct(TokenStorageInterface $token)
+    {
+        $this->token = $token->getToken();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function get()
+    {
+        if (!$this->token->isAuthenticated() || !$this->token->getUser() instanceof SymfonyUserInterface) {
+            return [];
+        }
+
+        $user = $this->token->getUser();
+
+        return [
+            'id' => $user->getId(),
+            'name' => $user->getUsername(),
+            'email' => $user->getEmail()
+        ];
+    }
+}
+```
+
+```yml
+# services.yml
+services:
+  app.bugsnag_user:
+    class: AppBundle\BugsnagUser
+    arguments: [@security.token_storage]
+```
+
+```yml
+# app/config/config.yml
+bugsnag:
+    user: app.bugsnag_user
+```
+
 # Contributing #
 
 * Fork it on Github

@@ -9,6 +9,7 @@
  */
 namespace Evolution7\BugsnagBundle\Bugsnag;
 
+use Evolution7\BugsnagBundle\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Evolution7\BugsnagBundle\ReleaseStage\ReleaseStageInterface;
@@ -44,6 +45,13 @@ class ClientLoader
         $this->bugsnagClient->setReleaseStage($releaseStageClass->get());
         $this->bugsnagClient->setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
         $this->bugsnagClient->setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
+
+        if ($container->hasParameter('bugsnag.user') && $container->has($container->getParameter('bugsnag.user'))) {
+            $service = $container->get($container->getParameter('bugsnag.user'));
+            if ($service instanceof UserInterface) {
+                $this->bugsnagClient->setUser($service->get());
+            }
+        }
 
         // If the proxy settings are configured, provide these to the Bugsnag client
         if ($container->hasParameter('bugsnag.proxy')) {
