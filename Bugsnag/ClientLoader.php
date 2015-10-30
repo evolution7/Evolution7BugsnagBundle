@@ -49,7 +49,7 @@ class ClientLoader
         if ($container->hasParameter('bugsnag.user') && $container->has($container->getParameter('bugsnag.user'))) {
             $service = $container->get($container->getParameter('bugsnag.user'));
             if ($service instanceof UserInterface) {
-                $this->bugsnagClient->setUser($service->get());
+                $this->bugsnagClient->setUser($service->getUserAsArray());
             }
         }
 

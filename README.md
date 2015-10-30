@@ -129,7 +129,7 @@ class BugsnagUser implements BugsnagUserInterface
     /**
      * @inheritdoc
      */
-    public function get()
+    public function getUserAsArray()
     {
         if (
             is_null($this->token)

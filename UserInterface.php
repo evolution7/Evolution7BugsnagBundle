@@ -13,6 +13,6 @@ interface UserInterface
      *
      * @return array
      */
-    public function get();
+    public function getUserAsArray();
 
 }
