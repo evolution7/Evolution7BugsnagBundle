@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('api_key')->end()
                 ->scalarNode('app_version')->end()
+                ->scalarNode('user')->defaultNull()->end()
                 ->arrayNode('enabled_stages')
                     ->defaultValue(array('prod'))
                     ->prototype('scalar')->end()

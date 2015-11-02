@@ -44,6 +44,10 @@ class BugsnagExtension extends Extension
         // Notify stages, default is staging and production
         $container->setParameter('bugsnag.notify_stages', $config['notify_stages']);
 
+        if (!empty($config['user']) && is_string($config['user'])) {
+            $container->setParameter('bugsnag.user', $config['user']);
+        }
+
         // App Version
         if (isset($config['app_version'])) {
             $container->setParameter('bugsnag.app_version', $config['app_version']);
