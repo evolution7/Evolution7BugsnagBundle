@@ -1,3 +1,15 @@
+
+1.4.0 / 2015-11-04 
+==================
+
+ * Update unit test
+ * Merge pull request #11 from DZunke/feature/users
+ * Rename get method in user interface to getUserAsArray
+ * Fix example bugsnag user in readme
+ * Implement service reader for userdata in trace
+ * Add stat badges
+ * Add credit for @vicdelfant
+
 1.3.0 / 2015-09-15
 ==================
 

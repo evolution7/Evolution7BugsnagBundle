@@ -109,7 +109,7 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                         array('bugsnag.proxy', $proxySettings)
                     );
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
                             ->method('hasParameter')
                             ->will($this->returnValue(true));
 
