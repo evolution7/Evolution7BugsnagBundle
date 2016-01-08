@@ -15,22 +15,22 @@ services:
 
     bugsnag.clientloader:
         class: %bugsnag.client.class%
-        arguments: [@bugsnag.client, @bugsnag.release_stage, @service_container]
+        arguments: ['@bugsnag.client', '@bugsnag.release_stage', '@service_container']
 
     bugsnag.exception_console_listener:
         class: %bugsnag.exception_console_listener.class%
-        arguments: [@bugsnag.clientloader]
+        arguments: ['@bugsnag.clientloader']
         tags:
             - { name: kernel.event_listener, event: console.exception }
 
     bugsnag.exception_listener:
         class: %bugsnag.exception_listener.class%
-        arguments: [@bugsnag.clientloader]
+        arguments: ['@bugsnag.clientloader']
         tags:
                     - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
     bugsnag.shutdown_listener:
         class: %bugsnag.shutdown_listener.class%
-        arguments: [@bugsnag.clientloader]
+        arguments: ['@bugsnag.clientloader']
         tags:
                     - { name: kernel.event_listener, event: kernel.controller, method: register }
