@@ -1,7 +1,7 @@
 evolution7_bugsnag_test_exception:
-    pattern:  /exception
+    path:  /exception
     defaults: { _controller: BugsnagBundle:Default:exception }
 
 evolution7_bugsnag_test_error:
-    pattern: /error
+    path: /error
     defaults: { _controller: BugsnagBundle:Default:error }
