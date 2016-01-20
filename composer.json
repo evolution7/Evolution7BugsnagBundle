@@ -8,7 +8,7 @@
     "require": {
         "php": ">=5.3.3",
         "bugsnag/bugsnag": "2.*",
-        "symfony/symfony": ">=2.2.0"
+        "symfony/symfony": ">=2.4.0"
     },
     "autoload": {
         "psr-0": { "Evolution7\\BugsnagBundle": "" }
