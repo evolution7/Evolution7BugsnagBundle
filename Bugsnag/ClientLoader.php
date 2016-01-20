@@ -69,19 +69,20 @@ class ClientLoader
         );
 
         // Get and add controller information, if available
-        if ($container->isScopeActive('request')) {
-            $request = $container->get('request');
-            $controller = $request->attributes->get('_controller');
+        $currentRequest = $container->get('request_stack')->getCurrentRequest();
+
+        if ($currentRequest) {
+            $controller = $currentRequest->attributes->get('_controller');
 
             if ($controller !== null) {
                 $metaData['Symfony'] = array('Controller' => $controller);
             }
 
-            $metaData['Symfony']['Route'] = $request->get('_route');
+            $metaData['Symfony']['Route'] = $currentRequest->get('_route');
 
             // Json types transmit params differently.
-            if ($request->getContentType() == 'json') {
-                $metaData['request']['params'] = $request->request->all();
+            if ($currentRequest->getContentType() == 'json') {
+                $metaData['request']['params'] = $currentRequest->request->all();
             }
 
             $this->bugsnagClient->setMetaData($metaData);
