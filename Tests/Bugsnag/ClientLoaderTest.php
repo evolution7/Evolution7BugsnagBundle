@@ -10,6 +10,7 @@
 namespace Evolution7\BugsnagBundle\Tests\Bugsnag;
 
 use Evolution7\BugsnagBundle\Bugsnag\ClientLoader;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ClientLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,12 +28,29 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                     ->method('getParameter')
                     ->will($this->returnValueMap($settings));
 
+        $this->getRequestStack();
+
         $client = new ClientLoader($this->bugsnagClient, $this->releaseStage, $this->container);
 
         $reflector = new \ReflectionClass($client);
         $toCheck = $reflector->getProperty('enabled');
         $toCheck->setAccessible(true);
         $this->assertEquals($result, $toCheck->getValue($client), $reason);
+    }
+
+    public function getRequestStack($request = null)
+    {
+        $requestStack = new RequestStack();
+
+        if ($request) {
+            $requestStack->push($request);
+        }
+
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->with('request_stack')
+            ->willReturn($requestStack);
     }
 
     public function settingsWorkForEnabledProvider()
@@ -93,6 +111,9 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
         $this->container->expects($this->any())
                     ->method('getParameter')
                     ->will($this->returnValueMap($settings));
+
+        $this->getRequestStack();
+
         $this->bugsnagClient->expects($this->never())
                     ->method('setProxySettings');
         new ClientLoader($this->bugsnagClient, $this->releaseStage, $this->container);
@@ -112,6 +133,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
         $this->container->expects($this->exactly(3))
                             ->method('hasParameter')
                             ->will($this->returnValue(true));
+
+        $this->getRequestStack();
 
         $this->container->expects($this->any())
                     ->method('getParameter')
@@ -135,6 +158,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );
+
+        $this->getRequestStack(new \Symfony\Component\HttpFoundation\Request());
 
         $this->container->expects($this->any())
                     ->method('getParameter')
@@ -163,6 +188,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                         array('kernel.root_dir', __DIR__)
                     );
 
+        $this->getRequestStack();
+
         $this->container->expects($this->any())
                     ->method('getParameter')
                     ->will($this->returnValueMap($settings));
@@ -180,6 +207,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                         array('bugsnag.notify_stages', array('staging', 'production')),
                         array('kernel.root_dir', __DIR__)
                     );
+
+        $this->getRequestStack();
 
         $this->container->expects($this->any())
                     ->method('getParameter')
@@ -199,6 +228,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                         array('kernel.root_dir', __DIR__)
                     );
 
+        $this->getRequestStack();
+
         $this->container->expects($this->any())
                     ->method('getParameter')
                     ->will($this->returnValueMap($settings));
@@ -217,6 +248,8 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                         array('kernel.root_dir', __DIR__)
                     );
 
+        $this->getRequestStack();
+
         $this->container->expects($this->any())
                     ->method('getParameter')
                     ->will($this->returnValueMap($settings));
@@ -232,14 +265,7 @@ class ClientLoaderTest extends \PHPUnit_Framework_TestCase
                                 ->setConstructorArgs(array('testkey'))
                                 ->getMock();
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->once())
-                    ->method('get')
-                    ->will($this->returnValue($this->getMock('Symfony\Component\HttpFoundation\Request', null)));
-        $this->container
-            ->expects($this->once())
-            ->method('isScopeActive')
-            ->with('request')
-            ->willReturn(true);
+
         $this->releaseStage = $this->getMock('Evolution7\BugsnagBundle\ReleaseStage\ReleaseStageInterface');
         $this->releaseStage->expects($this->once())
                     ->method('get')
