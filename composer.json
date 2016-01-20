@@ -6,9 +6,8 @@
     "homepage": "https://github.com/evolution7/Evolution7BugsnagBundle",
     "license": "MIT",
     "require": {
-        "php": ">=5.3.3",
         "bugsnag/bugsnag": "2.*",
-        "symfony/symfony": ">=2.4.0"
+        "symfony/symfony": "~2.4.0|~3.0"
     },
     "autoload": {
         "psr-0": { "Evolution7\\BugsnagBundle": "" }
