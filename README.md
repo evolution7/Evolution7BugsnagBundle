@@ -1,7 +1,7 @@
 [![Latest Stable Version](https://poser.pugx.org/evolution7/bugsnag-bundle/v/stable)](https://packagist.org/packages/evolution7/bugsnag-bundle) [![Total Downloads](https://poser.pugx.org/evolution7/bugsnag-bundle/downloads)](https://packagist.org/packages/evolution7/bugsnag-bundle) [![Latest Unstable Version](https://poser.pugx.org/evolution7/bugsnag-bundle/v/unstable)](https://packagist.org/packages/evolution7/bugsnag-bundle) [![License](https://poser.pugx.org/evolution7/bugsnag-bundle/license)](https://packagist.org/packages/evolution7/bugsnag-bundle)
 
 # Evolution7BugsnagBundle #
-Enables Bugsnag integration into your Symfony2 application, using the [bugsnag-php](https://github.com/bugsnag/bugsnag-php) 2.x library from Bugsnag.
+Enables Bugsnag integration into your Symfony application, using the [bugsnag-php](https://github.com/bugsnag/bugsnag-php) 2.x library from Bugsnag.
 
 # Installation #
 The recommended way of installing this bundle is using [Composer](http://getcomposer.org/). 
@@ -9,7 +9,7 @@ The recommended way of installing this bundle is using [Composer](http://getcomp
 Add this repository to your composer information using the following command
 
 ```bash
-composer require "evolution7/bugsnag-bundle:1.*"
+composer require "evolution7/bugsnag-bundle:~2.0"
 ```
 
 Add the bundle to your AppKernel.php:
