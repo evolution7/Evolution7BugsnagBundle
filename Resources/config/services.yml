@@ -7,30 +7,30 @@ parameters:
 
 services:
     bugsnag.release_stage:
-        class: %bugsnag.release_stage.class%
+        class: '%bugsnag.release_stage.class%'
 
     bugsnag.client:
         class: Bugsnag_Client
-        arguments: [%bugsnag.api_key%]
+        arguments: ['%bugsnag.api_key%']
 
     bugsnag.clientloader:
-        class: %bugsnag.client.class%
+        class: '%bugsnag.client.class%'
         arguments: ['@bugsnag.client', '@bugsnag.release_stage', '@service_container']
 
     bugsnag.exception_console_listener:
-        class: %bugsnag.exception_console_listener.class%
+        class: '%bugsnag.exception_console_listener.class%'
         arguments: ['@bugsnag.clientloader']
         tags:
             - { name: kernel.event_listener, event: console.exception }
 
     bugsnag.exception_listener:
-        class: %bugsnag.exception_listener.class%
+        class: '%bugsnag.exception_listener.class%'
         arguments: ['@bugsnag.clientloader']
         tags:
                     - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
     bugsnag.shutdown_listener:
-        class: %bugsnag.shutdown_listener.class%
+        class: '%bugsnag.shutdown_listener.class%'
         arguments: ['@bugsnag.clientloader']
         tags:
                     - { name: kernel.event_listener, event: kernel.controller, method: register }
